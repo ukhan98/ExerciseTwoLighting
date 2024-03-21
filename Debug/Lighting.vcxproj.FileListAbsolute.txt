@@ -1,0 +1,4 @@
+C:\Users\moham\Desktop\3DGraphicsCourse\InitLighting\Lighting\Debug\Lighting.vcxproj.AssemblyReference.cache
+C:\Users\moham\Desktop\3DGraphicsCourse\InitLighting\Lighting\Debug\Lighting.vcxproj.SuggestedBindingRedirects.cache
+C:\Users\moham\Desktop\3DGraphicsCourse\InitLighting\Lighting\Debug\Lighting.ChangePixelToolWindow.resources
+C:\Users\moham\Desktop\3DGraphicsCourse\InitLighting\Lighting\Debug\Lighting.vcxproj.GenerateResource.cache

@@ -1,0 +1,21 @@
+#version 330 // OpenGL version 2.1 (minimum requirement)
+
+in vec3 vertices; // Value sent from application to this attribute
+in vec3 colors;
+in vec2 texCoords;
+
+uniform mat4 WVP;
+
+out vec3 retColor;
+out vec2 retTexCoord; 
+
+void main()
+{
+    gl_Position =  WVP *  vec4(vertices, 1.0); // Pass-through shader, pass positions to next shader 
+    retColor = colors;
+    retTexCoord = texCoords;
+}
+
+//why does does changing the value of the second parameter in vec4(vertices, 1.0) 
+//for gl_position change the size of the mesh object
+//wouldnt you need to a mat4 where you are changing the scale index values to scale? 

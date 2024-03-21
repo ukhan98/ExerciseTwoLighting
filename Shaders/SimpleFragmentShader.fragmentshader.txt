@@ -1,0 +1,80 @@
+#version 330 // OpenGL version 2.1 (minimum requirement)
+
+in vec3 retColor;
+in vec2 retTexCoord;
+
+out vec4 FragColor;
+
+uniform sampler2D sampler1;
+uniform sampler2D sampler2;
+
+uniform float yValue;
+uniform float uValue;
+uniform float vValue;
+
+// Function prototypes for RGB<->YUV conversion
+vec3 rgbToYuv(vec3 rgb);
+vec3 yuvToRgb(vec3 yuv);
+
+void main()
+{
+    //FragColor = texture(sampler1, retTexCoord); // ex1: texture only
+    
+    //FragColor = texture(sampler1, retTexCoord) * vec4(retColor, 1.0f); //ex2: texture+color
+
+    //FragColor = mix(texture(sampler1, retTexCoord), texture(sampler2, retTexCoord), 0.3); //Ex3: 2 Texutures
+
+    //FragColor = mix(texture(sampler1, retTexCoord), texture(sampler2, retTexCoord), 0.3) * vec4(retColor, 1.0f); //Ex3: 2 Texutures+color
+
+    //texture samples texels from the texture bound to sampler at texture coordinate P. An optional bias, specified in 
+    //bias is included in the level-of-detail computation that is used to choose mipmap(s) from which to sample
+
+   // Mix the two textures
+    vec3 mixedTextureColor = mix(texture(sampler1, retTexCoord).rgb, texture(sampler2, retTexCoord).rgb, 0.3);
+    
+    // Apply the vertex color (retColor) to the mixed texture color
+    vec3 coloredTexture = mixedTextureColor * retColor;
+    
+    // Convert RGB to YUV
+    vec3 yuvColor = rgbToYuv(coloredTexture);
+    
+    // Apply the YUV adjustments based on uniform values
+    yuvColor.x *= yValue; // Adjust Y (luminance)
+    yuvColor.y *= uValue; // Adjust U (chrominance)
+    yuvColor.z *= vValue; // Adjust V (chrominance)
+    
+    // Convert the adjusted YUV back to RGB
+    vec3 adjustedRgbColor = yuvToRgb(yuvColor);
+    
+    // Output the final fragment color
+    FragColor = vec4(adjustedRgbColor, 1.0);
+}
+
+// Convert from RGB to YUV using the provided matrix
+vec3 rgbToYuv(vec3 rgb) {
+    const mat3 rgbToYuvMatrix = mat3(
+        0.299, 0.587, 0.114,
+       -0.14713, -0.28886, 0.436,
+        0.615, -0.51499, -0.10001
+    );
+    vec3 yuv = rgbToYuvMatrix * rgb;
+    // No need for additional offsets in this case, as they are not in the provided matrix
+    return yuv;
+}
+
+// Convert from YUV to RGB using the provided matrix
+vec3 yuvToRgb(vec3 yuv) {
+    const mat3 yuvToRgbMatrix = mat3(
+        1.0, 0.0, 1.13983,
+        1.0, -0.39465, -0.58060,
+        1.0, 2.03211, 0.0
+    );
+    vec3 rgb = yuvToRgbMatrix * yuv;
+    // Again, no need for additional offsets
+    return rgb;
+}
+
+
+//Is vec4(retColor, 1.0f) creating red blue green on each position in vertex? 
+// my rendering shows up as red only? changing second parameter does nothing? 
+//we figured this out because the colour of each corner of our mesh object was set in the vertexData in our mesh.cpp

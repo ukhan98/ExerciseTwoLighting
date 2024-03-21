@@ -1,0 +1,8 @@
+﻿          1 file(s) copied.
+          1 file(s) copied.
+  GameController.cpp
+  Camera.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
+WindowController.obj : warning LNK4248: unresolved typeref token (01000024) for 'GLFWwindow'; image may not run
+GameController.obj : warning LNK4248: unresolved typeref token (01000021) for 'GLFWwindow'; image may not run
+WindowController.obj : warning LNK4248: unresolved typeref token (01000021) for 'GLFWmonitor'; image may not run
+  Lighting.vcxproj -> C:\Users\moham\Desktop\3DGraphicsCourse\InitLighting\Debug\Lighting.exe
